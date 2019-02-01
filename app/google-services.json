@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "925333757521",
+    "firebase_url": "https://blog-5bba5.firebaseio.com",
+    "project_id": "blog-5bba5",
+    "storage_bucket": "blog-5bba5.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:925333757521:android:e677e56d74c9daca",
+        "android_client_info": {
+          "package_name": "wallyson.lima.blog"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "925333757521-9fajphard8smkonemgetq6e67gjqn874.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "wallyson.lima.blog",
+            "certificate_hash": "c3724b8ea8e7bf5b29b57a2c2909d7e581dcd75b"
+          }
+        },
+        {
+          "client_id": "925333757521-cprd3sk9uvmi71uf9l2dk94djjuuh61k.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBZyrxBWcXvw9JUzzzzazcTDBrNSZ0XzsI"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "925333757521-cprd3sk9uvmi71uf9l2dk94djjuuh61k.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
