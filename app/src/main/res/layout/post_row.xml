@@ -7,7 +7,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="721dp"
+        android:layout_height="552dp"
         android:orientation="vertical">
 
         <android.support.design.widget.AppBarLayout
@@ -27,10 +27,10 @@
         <ImageView
             android:id="@+id/postImageList"
             android:layout_width="match_parent"
-            android:layout_height="509dp"
+            android:layout_height="332dp"
             android:layout_margin="10dp"
             android:adjustViewBounds="true"
-            android:background="@color/cardview_dark_background"
+            android:background="@mipmap/add_btn"
             android:cropToPadding="false"
             android:scaleType="centerCrop" />
 
