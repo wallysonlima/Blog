@@ -24,7 +24,7 @@
         app:srcCompat="@mipmap/add_btn" />
 
     <EditText
-        android:id="@+id/PostTitleEt"
+        android:id="@+id/postTitleEt"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -79,6 +79,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/PostTitleEt"
+        app:layout_constraintTop_toBottomOf="@+id/postTitleEt"
         app:layout_constraintVertical_bias="0.915" />
 </android.support.constraint.ConstraintLayout>

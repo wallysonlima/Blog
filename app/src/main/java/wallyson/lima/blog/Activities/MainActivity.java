@@ -53,6 +53,7 @@ public class MainActivity extends AppCompatActivity {
                     Toast.makeText(MainActivity.this, "Signed In", Toast.LENGTH_LONG).show();
 
                     startActivity(new Intent(MainActivity.this, PostListActivity.class));
+                    finish();
                 } else {
                     Toast.makeText(MainActivity.this, "Not Signed In", Toast.LENGTH_LONG).show();
                 }
@@ -86,6 +87,9 @@ public class MainActivity extends AppCompatActivity {
                 if ( task.isSuccessful() ) {
                     // Yay !! We're in!
                     Toast.makeText(MainActivity.this, "Signed in!", Toast.LENGTH_LONG).show();
+
+                    startActivity(new Intent(MainActivity.this, PostListActivity.class));
+                    finish();
                 } else {
                     // No it!
                 }
