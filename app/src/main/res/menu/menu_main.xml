@@ -4,7 +4,7 @@
     tools:context="wallyson.lima.blog.Activities.MainActivity">
     <item
         android:id="@+id/action_add"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/ic_add_white_24dp"
         android:title="Add Post"
         app:showAsAction="always"/>
 
