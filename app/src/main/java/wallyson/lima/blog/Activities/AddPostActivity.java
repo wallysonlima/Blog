@@ -8,12 +8,15 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import wallyson.lima.blog.Model.Blog;
 import wallyson.lima.blog.R;
 
 public class AddPostActivity extends AppCompatActivity {
@@ -21,7 +24,6 @@ public class AddPostActivity extends AppCompatActivity {
     private EditText mPostTitle, mPostDesc;
     private Button mSubmitButton;
     private DatabaseReference mPostDatabase;
-    private FirebaseDatabase mDatabase;
     private FirebaseAuth mAuth;
     private FirebaseUser mUser;
     private ProgressDialog mProgress;
@@ -59,7 +61,18 @@ public class AddPostActivity extends AppCompatActivity {
         String descVal = mPostDesc.getText().toString().trim();
 
         if ( !TextUtils.isEmpty(titleVal) && !TextUtils.isEmpty(descVal)) {
-            // start the uploading... 
+            // start the uploading...
+            Blog blog = new Blog("Title", "Description",
+                    "imageUrl", "timestamp", "userid");
+
+            mPostDatabase.setValue(blog).addOnSuccessListener(new OnSuccessListener<Void>() {
+                @Override
+                public void onSuccess(Void aVoid) {
+                    Toast.makeText(getApplicationContext(), "Item added", Toast.LENGTH_LONG).show();
+
+                    mProgress.dismiss();
+                }
+            });
         }
     }
 }
