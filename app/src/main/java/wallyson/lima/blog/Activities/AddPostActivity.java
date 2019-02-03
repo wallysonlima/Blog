@@ -1,6 +1,10 @@
 package wallyson.lima.blog.Activities;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
+import android.net.Uri;
+import android.preference.PreferenceManager;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -27,6 +31,8 @@ public class AddPostActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private FirebaseUser mUser;
     private ProgressDialog mProgress;
+    private Uri mImageUri;
+    private static final int GALLERY_CODE = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,13 +50,34 @@ public class AddPostActivity extends AppCompatActivity {
         mPostDesc = findViewById(R.id.descriptionEt);
         mSubmitButton = findViewById(R.id.submitPost);
 
-       mSubmitButton.setOnClickListener(new View.OnClickListener() {
+        mPostImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent galleryIntent = new Intent(Intent.ACTION_GET_CONTENT);
+                galleryIntent.setType("image/*");
+                startActivityForResult(galleryIntent, GALLERY_CODE);
+            }
+        });
+
+
+        mSubmitButton.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View v) {
                // Posting to our database
                startPosting();
            }
        });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if ( requestCode == GALLERY_CODE && resultCode == RESULT_OK ) {
+            mImageUri = data.getData();
+            mPostImage.setImageURI(mImageUri);
+
+        }
     }
 
     private void startPosting() {
