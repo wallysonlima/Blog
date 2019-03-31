@@ -24,6 +24,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -101,7 +102,7 @@ public class AddPostActivity extends AppCompatActivity {
         mImageUri != null) {
             // start the uploading...
 
-            StorageReference filepath = mStorage.child("Blog_images").child(mImageUri.getLastPathSegment());
+            final StorageReference filepath = mStorage.child("MBlog_images").child(mImageUri.getLastPathSegment());
 
             filepath.putFile(mImageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override
@@ -114,12 +115,19 @@ public class AddPostActivity extends AppCompatActivity {
                     dataToSave.put("title", titleVal);
                     dataToSave.put("desc", descVal);
                     dataToSave.put("image", downloadurl.toString());
-                    dataToSave.put("timestamp", String.valueOf(java.lang.System.currentTimeMillis()));
+
+                    java.text.DateFormat dateFormat = java.text.DateFormat.getDateInstance();
+                    String formattedDate = dateFormat.format(new Date(java.lang.System.currentTimeMillis()).getTime());
+
+                    dataToSave.put("timestamp", formattedDate);
                     dataToSave.put("userid", mUser.getUid());
 
                     newPost.setValue(dataToSave);
 
                     mProgress.dismiss();
+
+                    startActivity(new Intent(AddPostActivity.this, PostListActivity.class));
+                    finish();
                 }
             });
         }

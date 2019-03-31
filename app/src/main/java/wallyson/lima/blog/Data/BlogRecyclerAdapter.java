@@ -9,7 +9,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.util.Date;
+import com.squareup.picasso.Picasso;
+
 import java.util.List;
 
 import wallyson.lima.blog.Model.Blog;
@@ -24,11 +25,12 @@ public class BlogRecyclerAdapter extends RecyclerView.Adapter<BlogRecyclerAdapte
         this.blogList = blogList;
     }
 
-    @NonNull
     @Override
-    public BlogRecyclerAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.post_row, parent, false);
+
 
         return new ViewHolder(view, context);
     }
@@ -42,14 +44,12 @@ public class BlogRecyclerAdapter extends RecyclerView.Adapter<BlogRecyclerAdapte
         holder.desc.setText(blog.getDesc());
         holder.timestamp.setText(blog.getTimestamp());
 
-        java.text.DateFormat dateFormat = java.text.DateFormat.getDateInstance();
-        String formattedDate = dateFormat.format(new Date(Long.valueOf(blog.getTimestamp())).getTime());
-
-        holder.timestamp.setText(formattedDate);
-
         imageUrl = blog.getImage();
 
-        // Todo
+        //Use Picasso library to load image
+        Picasso.with(context)
+                .load(imageUrl)
+                .into(holder.image);
     }
 
     @Override
