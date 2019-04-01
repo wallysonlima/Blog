@@ -102,7 +102,7 @@ public class AddPostActivity extends AppCompatActivity {
         mImageUri != null) {
             // start the uploading...
 
-            final StorageReference filepath = mStorage.child("MBlog_images").child(mImageUri.getLastPathSegment());
+            final StorageReference filepath = mStorage.child("Blog_images").child(mImageUri.getLastPathSegment());
 
             filepath.putFile(mImageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override

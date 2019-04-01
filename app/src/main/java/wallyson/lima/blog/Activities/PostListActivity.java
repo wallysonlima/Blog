@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -90,19 +91,9 @@ public class PostListActivity extends AppCompatActivity {
         mDatabaseReference.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-                String desc, image, timestamp, title, userid;
+                Blog blog = dataSnapshot.getValue(Blog.class);
+                blogList.add(blog);
 
-                desc = image = timestamp = title = userid = "";
-
-                for(DataSnapshot data: dataSnapshot.getChildren() ) {
-                    desc = data.child("desc").getValue(String.class);
-                    image = data.child("image").getValue(String.class);
-                    timestamp = data.child("timestamp").getValue(String.class);
-                    title = data.child("title").getValue(String.class);
-                    userid = data.child("userid").getValue(String.class);
-
-                    blogList.add(new Blog(title, desc, image, timestamp, userid) );
-                }
 
                 blogRecyclerAdapter = new BlogRecyclerAdapter(PostListActivity.this, blogList);
                 recyclerView.setAdapter(blogRecyclerAdapter);
@@ -126,7 +117,7 @@ public class PostListActivity extends AppCompatActivity {
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-
+                Log.w(null, "loadPost:onCancelled", databaseError.toException());
             }
         });
 
