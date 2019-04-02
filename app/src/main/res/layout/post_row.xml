@@ -8,7 +8,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="552dp"
+        android:layout_height="wrap_content"
         android:orientation="vertical">
 
         <android.support.design.widget.AppBarLayout
@@ -31,7 +31,7 @@
             android:layout_height="332dp"
             android:layout_margin="10dp"
             android:adjustViewBounds="true"
-            android:background="@mipmap/add_btn"
+            android:src="@mipmap/add_btn"
             android:cropToPadding="false"
             android:scaleType="centerCrop" />
 

@@ -107,14 +107,13 @@ public class AddPostActivity extends AppCompatActivity {
             filepath.putFile(mImageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                    Task<Uri> downloadurl = taskSnapshot.getStorage().getDownloadUrl();
-
+                    Task<Uri> downloadurl = taskSnapshot.getMetadata().getReference().getDownloadUrl();
                     DatabaseReference newPost = mPostDatabase.push();
 
                     Map<String, String> dataToSave = new HashMap<>();
                     dataToSave.put("title", titleVal);
                     dataToSave.put("desc", descVal);
-                    dataToSave.put("image", downloadurl.toString());
+                    dataToSave.put("image", downloadurl.getResult().toString());
 
                     java.text.DateFormat dateFormat = java.text.DateFormat.getDateInstance();
                     String formattedDate = dateFormat.format(new Date(java.lang.System.currentTimeMillis()).getTime());
