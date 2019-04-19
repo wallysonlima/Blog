@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.preference.PreferenceManager;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -14,6 +15,8 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.Continuation;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -24,6 +27,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import java.io.File;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -98,37 +102,30 @@ public class AddPostActivity extends AppCompatActivity {
         final String titleVal = mPostTitle.getText().toString().trim();
         final String descVal = mPostDesc.getText().toString().trim();
 
-        if ( !TextUtils.isEmpty(titleVal) && !TextUtils.isEmpty(descVal) &&
-        mImageUri != null) {
-            // start the uploading...
+        final StorageReference filePath = mStorage.child("Blog_images").child(mImageUri.getLastPathSegment());
+        filePath.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+            @Override
+            public void onSuccess(Uri uri) {
+                DatabaseReference newPost = mPostDatabase.push();
 
-            final StorageReference filepath = mStorage.child("Blog_images").child(mImageUri.getLastPathSegment());
+                Map<String, String> dataToSave = new HashMap<>();
+                dataToSave.put("title", titleVal);
+                dataToSave.put("desc", descVal);
+                dataToSave.put("image", uri.toString());
+                dataToSave.put("timestamp", String.valueOf(java.lang.System.currentTimeMillis()));
+                dataToSave.put("userid", mUser.getUid());
+                dataToSave.put("username", mUser.getEmail());
 
-            filepath.putFile(mImageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                @Override
-                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                    Task<Uri> downloadurl = taskSnapshot.getMetadata().getReference().getDownloadUrl();
-                    DatabaseReference newPost = mPostDatabase.push();
+                newPost.setValue(dataToSave);
+                mProgress.dismiss();
 
-                    Map<String, String> dataToSave = new HashMap<>();
-                    dataToSave.put("title", titleVal);
-                    dataToSave.put("desc", descVal);
-                    dataToSave.put("image", downloadurl.getResult().toString());
+                startActivity(new Intent(AddPostActivity.this, PostListActivity.class));
+                finish();
+            }
+        });
 
-                    java.text.DateFormat dateFormat = java.text.DateFormat.getDateInstance();
-                    String formattedDate = dateFormat.format(new Date(java.lang.System.currentTimeMillis()).getTime());
 
-                    dataToSave.put("timestamp", formattedDate);
-                    dataToSave.put("userid", mUser.getUid());
 
-                    newPost.setValue(dataToSave);
 
-                    mProgress.dismiss();
-
-                    startActivity(new Intent(AddPostActivity.this, PostListActivity.class));
-                    finish();
-                }
-            });
-        }
     }
 }
