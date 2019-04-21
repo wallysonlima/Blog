@@ -44,6 +44,14 @@ public class MainActivity extends AppCompatActivity {
         emailField = findViewById(R.id.loginEmailEt);
         passwordField = findViewById(R.id.loginPasswordEt);
 
+        createButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, CreateAccountActivity.class));
+                finish();
+            }
+        });
+
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
@@ -51,7 +59,6 @@ public class MainActivity extends AppCompatActivity {
 
                 if ( mUser != null ) {
                     Toast.makeText(MainActivity.this, "Signed In", Toast.LENGTH_LONG).show();
-
                     startActivity(new Intent(MainActivity.this, PostListActivity.class));
                     finish();
                 } else {

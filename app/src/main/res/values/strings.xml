@@ -5,4 +5,6 @@
     <string name="password">Password</string>
     <string name="login_title">Login</string>
     <string name="create_act">Create Account</string>
+    <string name="firstName">First Name</string>
+    <string name="lastName">Last Name</string>
 </resources>
