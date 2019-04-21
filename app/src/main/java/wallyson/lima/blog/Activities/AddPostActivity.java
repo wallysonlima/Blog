@@ -101,31 +101,71 @@ public class AddPostActivity extends AppCompatActivity {
 
         final String titleVal = mPostTitle.getText().toString().trim();
         final String descVal = mPostDesc.getText().toString().trim();
+        final StorageReference filepath = mStorage.child("Blog_images").child(mImageUri.getLastPathSegment());
 
-        final StorageReference filePath = mStorage.child("Blog_images").child(mImageUri.getLastPathSegment());
-        filePath.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+        filepath.putFile(mImageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
-            public void onSuccess(Uri uri) {
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                filepath.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                    @Override
+                    public void onSuccess(Uri uri) {
+                        DatabaseReference newPost = mPostDatabase.push();
+                        Map<String, String> dataToSave = new HashMap<>();
+                        dataToSave.put("title", titleVal);
+                        dataToSave.put("desc", descVal);
+                        dataToSave.put("image", uri.toString());
+
+                        java.text.DateFormat dateFormat = java.text.DateFormat.getDateInstance();
+                        String formattedDate = dateFormat.format(new Date(Long.valueOf(java.lang.System.currentTimeMillis())));
+
+                        dataToSave.put("timestamp", formattedDate);
+                        dataToSave.put("userid", mUser.getUid());
+                        dataToSave.put("username", mUser.getEmail());
+
+                        newPost.setValue(dataToSave);
+
+
+                        mProgress.dismiss();
+
+                        startActivity(new Intent(AddPostActivity.this, PostListActivity.class));
+                        finish();
+                    }
+                });
+            }
+        });
+
+        /*final StorageReference filepath = mStorage.child("Blog_images").
+                child(mImageUri.getLastPathSegment());
+                filepath.putFile(mImageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+
+                String downloadurl = taskSnapshot.getMetadata().getReference().getDownloadUrl().toString();
+
                 DatabaseReference newPost = mPostDatabase.push();
+
 
                 Map<String, String> dataToSave = new HashMap<>();
                 dataToSave.put("title", titleVal);
                 dataToSave.put("desc", descVal);
-                dataToSave.put("image", uri.toString());
-                dataToSave.put("timestamp", String.valueOf(java.lang.System.currentTimeMillis()));
+                dataToSave.put("image", downloadurl);
+
+                java.text.DateFormat dateFormat = java.text.DateFormat.getDateInstance();
+                String formattedDate = dateFormat.format(new Date(Long.valueOf(java.lang.System.currentTimeMillis())));
+
+                dataToSave.put("timestamp", formattedDate);
                 dataToSave.put("userid", mUser.getUid());
                 dataToSave.put("username", mUser.getEmail());
 
                 newPost.setValue(dataToSave);
+
+
                 mProgress.dismiss();
 
                 startActivity(new Intent(AddPostActivity.this, PostListActivity.class));
                 finish();
             }
         });
-
-
-
-
+        */
     }
 }
