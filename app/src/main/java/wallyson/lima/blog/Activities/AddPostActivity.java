@@ -133,39 +133,5 @@ public class AddPostActivity extends AppCompatActivity {
                 });
             }
         });
-
-        /*final StorageReference filepath = mStorage.child("Blog_images").
-                child(mImageUri.getLastPathSegment());
-                filepath.putFile(mImageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-            @Override
-            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-
-                String downloadurl = taskSnapshot.getMetadata().getReference().getDownloadUrl().toString();
-
-                DatabaseReference newPost = mPostDatabase.push();
-
-
-                Map<String, String> dataToSave = new HashMap<>();
-                dataToSave.put("title", titleVal);
-                dataToSave.put("desc", descVal);
-                dataToSave.put("image", downloadurl);
-
-                java.text.DateFormat dateFormat = java.text.DateFormat.getDateInstance();
-                String formattedDate = dateFormat.format(new Date(Long.valueOf(java.lang.System.currentTimeMillis())));
-
-                dataToSave.put("timestamp", formattedDate);
-                dataToSave.put("userid", mUser.getUid());
-                dataToSave.put("username", mUser.getEmail());
-
-                newPost.setValue(dataToSave);
-
-
-                mProgress.dismiss();
-
-                startActivity(new Intent(AddPostActivity.this, PostListActivity.class));
-                finish();
-            }
-        });
-        */
     }
 }
